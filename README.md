@@ -50,4 +50,4 @@ Builds the project for production and deploys to AWS
 
 CloudFront URL: <http://d1bt526qb2ipkz.cloudfront.net>
 
-S3 Bucket URL: <http://shoptsstack-shopbucket9b57ab59-ytb6zpx86bj1.s3-website-us-east-1.amazonaws.com>
+S3 Bucket URL: <http://shoptsstack-shopbucket9b57ab59-ytb6zpx86bj1.s3.us-east-1.amazonaws.com> (`403 AccessDenied`)

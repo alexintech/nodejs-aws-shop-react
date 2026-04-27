@@ -33,7 +33,7 @@ export default function Header() {
             underline="none"
             to="/"
           >
-            The Best Headphones Shop!
+            The Best Headphones Shop
           </Link>
         </Typography>
 

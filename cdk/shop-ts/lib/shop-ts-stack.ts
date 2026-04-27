@@ -12,28 +12,33 @@ export class ShopTsStack extends cdk.Stack {
     super(scope, id, props);
 
     // S3 bucket
-    const websiteBucket = new s3.Bucket(this, "shop-bucket", {
-      websiteIndexDocument: "index.html",
-      publicReadAccess: true,
-      blockPublicAccess: new s3.BlockPublicAccess({
-        blockPublicAcls: false,
-        blockPublicPolicy: false,
-        ignorePublicAcls: false,
-        restrictPublicBuckets: false,
-      }),
-      // removalPolicy: RemovalPolicy.DESTROY,
-      // autoDeleteObjects: true,
-    });
+    const websiteBucket = new s3.Bucket(this, "shop-bucket");
+
+    // Another variant like in manual: expose static website from bucket
+    // const websiteBucket = new s3.Bucket(this, "shop-bucket", {
+    //   websiteIndexDocument: "index.html",
+    //   publicReadAccess: true,
+    //   blockPublicAccess: new s3.BlockPublicAccess({
+    //     blockPublicAcls: false,
+    //     blockPublicPolicy: false,
+    //     ignorePublicAcls: false,
+    //     restrictPublicBuckets: false,
+    //   }),
+    // });
 
     new CfnOutput(this, "Bucket", { value: websiteBucket.bucketName });
-    new CfnOutput(this, "StaticSiteUrl", {
-      value: websiteBucket.bucketWebsiteUrl,
+    new CfnOutput(this, "S3Url", {
+      value: `http://${websiteBucket.bucketRegionalDomainName}`,
     });
 
     // CloudFront distribution
     const distribution = new cloudfront.Distribution(this, "SiteDistribution", {
+      defaultRootObject: "index.html",
       defaultBehavior: {
-        origin: new cloudfront_origins.S3StaticWebsiteOrigin(websiteBucket),
+        origin:
+          cloudfront_origins.S3BucketOrigin.withOriginAccessControl(
+            websiteBucket
+          ),
       },
     });
 
@@ -42,7 +47,7 @@ export class ShopTsStack extends cdk.Stack {
     });
 
     new CfnOutput(this, "CloudFrontUrl", {
-      value: distribution.distributionDomainName,
+      value: `http://${distribution.distributionDomainName}`,
     });
 
     // Deploy site contents to S3 bucket
