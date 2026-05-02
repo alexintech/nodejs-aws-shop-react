@@ -36,3 +36,18 @@ Runs tests in console, in browser or with coverage.
 ### `lint`, `prettier`
 
 Runs linting and formatting for all files in `src` folder.
+
+### `cdk:diff`
+
+Builds the project for production and shows the diff with deployed state
+
+### `cdk:deploy`
+
+Builds the project for production and deploys to AWS
+
+
+## URLs
+
+CloudFront URL: <http://d1bt526qb2ipkz.cloudfront.net>
+
+S3 Bucket URL: <http://shoptsstack-shopbucket9b57ab59-ytb6zpx86bj1.s3.us-east-1.amazonaws.com> (`403 AccessDenied`)
